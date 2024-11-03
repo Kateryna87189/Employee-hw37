@@ -1,3 +1,4 @@
+import java.io.IOError;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,27 +19,36 @@ public class Main {
         team1.put("4", new Employee("Нечипорук В.",4));
 
         Map<String,Employee> team2 = new HashMap<>();
-        team1.put("1", new Employee("Прохоров І.",1));
-        team1.put("5", new Employee("Прокопова В.",5));
-        team1.put("6", new Employee("Григор'єв А.",6));
-        team1.put("4", new Employee("Нечипорук В.",4));
+        team2.put("1", new Employee("Прохоров І.",1));
+        team2.put("5", new Employee("Прокопова В.",5));
+        team2.put("6", new Employee("Григор'єв А.",6));
+        team2.put("4", new Employee("Нечипорук В.",4));
 
         Map<String,Employee> team3 = new HashMap<>();
-        team1.put("7", new Employee("Залізняк О.",7));
-        team1.put("5", new Employee("Прокопова В.",5));
-        team1.put("6", new Employee("Григор'єв А.",6));
-        team1.put("8", new Employee("Гуляйнога С.",8));
+        team3.put("7", new Employee("Залізняк О.",7));
+        team3.put("5", new Employee("Прокопова В.",5));
+        team3.put("6", new Employee("Григор'єв А.",6));
+        team3.put("8", new Employee("Гуляйнога С.",8));
 
         //підрахунок співробітників
-       var employeeCountMap = countEmployeeOccurrences (team1, team2, team3);
+       Map<Employee, Integer> employeeCountMap = countEmployeeOccurrences (team1, team2, team3);
        for (var entry : employeeCountMap.entrySet()){
            System.out.println("Працівник: "+entry.getKey() + "згадується "+ entry.getValue()+" разів");
        }
     }
+    //метод для підрахунку згадувань співробітників
     public static Map<Employee, Integer> countEmployeeOccurrences(Map<String, Employee>...teams){
-        var employeeCountMap = new HashMap<Employee, Integer>();
-        for (var team : teams){
-           team.values().forEach(employee -> employeeCountMap.merge(employee, 1, Integer::sum));
+        Map<Employee,Integer> employeeCountMap = new HashMap<>();
+
+        for (Map<String, Employee> team : teams){
+            for (Employee employee: team.values()){
+                //підрахунок згадувань
+                if (employeeCountMap.containsKey(employee)){
+                    employeeCountMap.put(employee, employeeCountMap.get(employee) +1);
+                }else {
+                    employeeCountMap.put(employee,1);
+                }
+            }
         }
         return employeeCountMap;
     }

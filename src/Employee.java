@@ -17,7 +17,7 @@ public class Employee {
         return id;
     }
     public String toString() {
-        return name + "("+ id + ")";
+        return name;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class Employee {
         if (o == null || getClass() != o.getClass()) return false;
 
         Employee employee = (Employee) o;
-        return id == employee.id && Objects.equals(name, employee.name);
+        return Objects.equals(id, employee.id);
     }
 
     @Override
